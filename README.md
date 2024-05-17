@@ -32,11 +32,11 @@ Run below commands in project directory
 
 ## API Endpoints
 
-- `GET /api/users`: Get all users.
-- `GET /api/users/{id}`: Get a specific user by ID.
-- `POST /api/users`: Create a new user.
-- `PUT /api/users/{id}`: Update a user by ID.
-- `DELETE /api/users/{id}`: Delete a user by ID.
+- `GET /users`: Get all users.
+- `GET /users/{id}`: Get a specific user by ID.
+- `POST /users`: Create a new user.
+- `PUT /users/{id}`: Update a user by ID.
+- `DELETE /users/{id}`: Delete a user by ID.
 
 ## Contributing
 
