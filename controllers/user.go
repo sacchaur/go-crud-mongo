@@ -14,6 +14,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// UserController is the interface for the user controller
 type UserController interface {
 	Get(c *fiber.Ctx) error
 	Add(c *fiber.Ctx) error
@@ -45,6 +46,7 @@ func NewUserHandler(userLib libraries.UserService) UserController {
 // @Security     ApiKeyAuth
 func (userController *userController) Get(c *fiber.Ctx) error {
 	// Get the user id from the param
+	log.Println("Get user in controller")
 	userId := c.Params("userid", "")
 	userIdInt, err := strconv.Atoi(userId)
 	if err != nil {
@@ -148,6 +150,7 @@ func (userController *userController) Delete(c *fiber.Ctx) error {
 }
 
 func (userController *userController) GetAll(c *fiber.Ctx) error {
+	log.Println("Get all user in controller1")
 	users, err := userController.userLib.GetAll(c.UserContext())
 	if err != nil {
 		return c.Status(http.StatusNotFound).JSON(responses.UserResponse{

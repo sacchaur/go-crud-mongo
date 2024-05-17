@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  live-air:
+    image: cosmtrek/air
+    restart: always
+    container_name: live-air
+    working_dir: /go/src
+    ports:
+      - "3011:3000"
+    volumes:
+      - ./:/go/src
+    networks:
+      - go_mongodb_network
+
+  mongodb:
+    image: mongo:latest
+    container_name: go-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: sachin
+      MONGO_INITDB_ROOT_PASSWORD: sachin@123
+      #  MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      # MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - go_mongodb_network
+
+  go-mongodb-api:
+    build: .
+    restart: always
+    container_name: go-mongodb-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/go/src
+    # environment:
+    #   PORT: ${PORT}
+    #   MONGODB_USERNAME: ${MONGODB_USERNAME}
+    #   MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+    #   MONGODB_URI: ${MONGODB_URI}
+    #   MONGODB_DB_NAME: ${MONGODB_DB_NAME}
+    #   MONGODB_USER_COLLECTION: ${MONGODB_USER_COLLECTION}
+    #   MONGODB_TIMEOUT: ${MONGODB_TIMEOUT}
+    networks:
+      - go_mongodb_network
+    depends_on:
+      - mongodb
+
+
+volumes:
+  mongodb_data:
+
+networks:
+  go_mongodb_network:
+    driver: bridge

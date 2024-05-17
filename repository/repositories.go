@@ -18,6 +18,7 @@ var (
 	once            sync.Once
 )
 
+// Init initializes the MongoDB connection
 func Init(cfg configs.ApiConfig) error {
 	var err error
 
@@ -28,7 +29,7 @@ func Init(cfg configs.ApiConfig) error {
 		encodedUsername := url.QueryEscape(cfg.MongoUsername)
 		encodedPassword := url.QueryEscape(cfg.MongoPassword)
 
-		mongoURI := fmt.Sprintf("mongodb+srv://%s:%s@%s", encodedUsername, encodedPassword, cfg.MongoDBURI)
+		mongoURI := fmt.Sprintf("mongodb://%s:%s@%s", encodedUsername, encodedPassword, cfg.MongoDBURI)
 
 		// Set client options
 		serverAPI := options.ServerAPI(options.ServerAPIVersion1)
