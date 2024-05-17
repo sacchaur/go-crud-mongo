@@ -18,11 +18,10 @@ This is a simple CRUD (Create, Read, Update, Delete) API written in Go, using th
 
 ## How to Run
 
-1. Ensure you have Go installed on your machine.
+1. Ensure you have Go, Docker and docker-compose is installed on your machine.
 2. Clone the repository.
 3. Navigate to the project directory.
-4. Run `go mod download` / `go mod tidy` to download the necessary Go modules.
-5. Run `go run main.go` to start the server.
+4. Run `make` to start the build on docker.
 
 ## API Endpoints
 
