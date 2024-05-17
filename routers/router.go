@@ -28,9 +28,9 @@ func SetupRoutes(app *fiber.App, storageInstance *mongo.Client) {
 func AuthRoutes(app *fiber.App) {
 
 	// Initialize repositories
-	userRepo := repository.NewUserRepository()
-	userLibrary := libraries.NewUserService(userRepo)
-	oauthController := controllers.NewOauthHandler(userLibrary)
+	authRepo := repository.NewAuthenticationRepository()
+	userLibrary := libraries.NewAuthenticationService(authRepo)
+	oauthController := controllers.NewAuthenticationHandler(userLibrary)
 
 	app.Post("/oauth/token", oauthController.Token)
 	app.Get("/protected", middlewares.JWTProtected(), func(c *fiber.Ctx) error {
@@ -41,4 +41,8 @@ func AuthRoutes(app *fiber.App) {
 		// Handle the OAuth callback here
 		return c.JSON(fiber.Map{"message": "OAuth callback received"})
 	})
+
+	app.Post("/user/login", oauthController.Login)
+	app.Post("/user/reset", oauthController.ResetPassword)
+
 }

@@ -15,7 +15,6 @@ type UserService interface {
 	Update(ctx context.Context, userId int, user *dto.User) (*dto.User, error)
 	Delete(ctx context.Context, userId int) (bool, error)
 	GetAll(ctx context.Context) (*[]dto.User, error)
-	AuthenticateUser(username, password string) (bool, error)
 }
 
 type userService struct {
@@ -52,8 +51,4 @@ func (us *userService) Delete(ctx context.Context, userId int) (bool, error) {
 
 func (us *userService) GetAll(ctx context.Context) (*[]dto.User, error) {
 	return us.userRepo.GetAllUsers(ctx)
-}
-
-func (us *userService) AuthenticateUser(username, password string) (bool, error) {
-	return us.userRepo.AuthenticateUser(username, password)
 }

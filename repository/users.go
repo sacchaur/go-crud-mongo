@@ -4,7 +4,6 @@ import (
 	"context"
 	"crud_operation/configs"
 	"crud_operation/dto"
-	"crud_operation/utils"
 	"log"
 	"strconv"
 	"time"
@@ -20,7 +19,6 @@ type UserRepository interface {
 	UpdateUser(ctx context.Context, userId int, user *dto.User) (*dto.User, error)
 	DeleteUser(ctx context.Context, userId int) (bool, error)
 	GetAllUsers(ctx context.Context) (*[]dto.User, error)
-	AuthenticateUser(username, password string) (bool, error)
 }
 
 type userRepository struct {
@@ -118,16 +116,4 @@ func (r *userRepository) GetAllUsers(ctx context.Context) (*[]dto.User, error) {
 	}
 
 	return &users, nil
-}
-
-func (r *userRepository) AuthenticateUser(username, password string) (bool, error) {
-	collection := GetCollection(r.cfg, r.storageInstance, r.cfg.MongoUserCollection)
-	// collection := db.GetCollection("users")
-	var user dto.User
-	err := collection.FindOne(context.Background(), bson.M{"username": username}).Decode(&user)
-	if err != nil {
-		return false, err
-	}
-
-	return utils.Compare(password, user.Salt, user.Password), nil
 }
