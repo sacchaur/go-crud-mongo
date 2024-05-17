@@ -37,14 +37,17 @@ func (ctrl *oauthController) Token(c *fiber.Ctx) error {
 	password := c.FormValue("password")
 
 	// Authenticate the user (you need to implement this function)
-	user, err := ctrl.userLib.AuthenticateUser(username, password)
-	if err != nil || user == nil {
+	status, err := ctrl.userLib.AuthenticateUser(username, password)
+	if !status {
 		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid credentials"})
+	}
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"message": "Failed to authenticate user", "error": err.Error()})
 	}
 
 	expirationTime := time.Now().Add(configs.TokenExpiry)
 	claims := &Claims{
-		Username: user.Username,
+		Username: username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},

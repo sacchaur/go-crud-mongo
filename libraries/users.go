@@ -5,6 +5,7 @@ import (
 	"crud_operation/configs"
 	"crud_operation/dto"
 	"crud_operation/repository"
+	"crud_operation/utils"
 	"log"
 )
 
@@ -14,7 +15,7 @@ type UserService interface {
 	Update(ctx context.Context, userId int, user *dto.User) (*dto.User, error)
 	Delete(ctx context.Context, userId int) (bool, error)
 	GetAll(ctx context.Context) (*[]dto.User, error)
-	AuthenticateUser(username, password string) (*dto.User, error)
+	AuthenticateUser(username, password string) (bool, error)
 }
 
 type userService struct {
@@ -35,6 +36,9 @@ func (us *userService) Get(ctx context.Context, userId int) (*dto.User, error) {
 
 func (us *userService) Add(ctx context.Context, user *dto.User) (*dto.User, error) {
 	log.Println("Add user in service")
+	salt := utils.GenerateSalt()
+	user.Salt = salt
+	user.Password = utils.Encrypt(user.Password, salt)
 	return us.userRepo.CreateUser(ctx, user)
 }
 
@@ -50,6 +54,6 @@ func (us *userService) GetAll(ctx context.Context) (*[]dto.User, error) {
 	return us.userRepo.GetAllUsers(ctx)
 }
 
-func (us *userService) AuthenticateUser(username, password string) (*dto.User, error) {
+func (us *userService) AuthenticateUser(username, password string) (bool, error) {
 	return us.userRepo.AuthenticateUser(username, password)
 }
