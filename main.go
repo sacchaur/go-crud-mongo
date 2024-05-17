@@ -34,6 +34,9 @@ func main() {
 		log.Fatal("unable to connect to storage instances", err.Error())
 	}
 
+	// Register routes
+	routers.AuthRoutes(app)
+
 	routers.SetupRoutes(app, repository.StorageInstance)
 
 	go startServer(cfg, app)

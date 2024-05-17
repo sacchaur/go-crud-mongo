@@ -19,6 +19,7 @@ type UserRepository interface {
 	UpdateUser(ctx context.Context, userId int, user *dto.User) (*dto.User, error)
 	DeleteUser(ctx context.Context, userId int) (bool, error)
 	GetAllUsers(ctx context.Context) (*[]dto.User, error)
+	AuthenticateUser(username, password string) (*dto.User, error)
 }
 
 type userRepository struct {
@@ -116,4 +117,15 @@ func (r *userRepository) GetAllUsers(ctx context.Context) (*[]dto.User, error) {
 	}
 
 	return &users, nil
+}
+
+func (r *userRepository) AuthenticateUser(username, password string) (*dto.User, error) {
+	collection := GetCollection(r.cfg, r.storageInstance, r.cfg.MongoUserCollection)
+	// collection := db.GetCollection("users")
+	var user dto.User
+	err := collection.FindOne(context.Background(), bson.M{"username": username, "password": password}).Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
