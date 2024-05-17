@@ -28,8 +28,12 @@ func Init(cfg configs.ApiConfig) error {
 		// Encode the username and password to be URL-safe
 		encodedUsername := url.QueryEscape(cfg.MongoUsername)
 		encodedPassword := url.QueryEscape(cfg.MongoPassword)
-
-		mongoURI := fmt.Sprintf("mongodb://%s:%s@%s", encodedUsername, encodedPassword, cfg.MongoDBURI)
+		var mongoURI string
+		if cfg.MongoDBInstanceLocation == "DOCKER" {
+			mongoURI = fmt.Sprintf("mongodb://%s:%s@%s", encodedUsername, encodedPassword, cfg.MongoDBURI)
+		} else {
+			mongoURI = fmt.Sprintf("mongodb+srv://%s:%s@%s", encodedUsername, encodedPassword, cfg.MongoDBURISrv)
+		}
 
 		// Set client options
 		serverAPI := options.ServerAPI(options.ServerAPIVersion1)

@@ -72,16 +72,18 @@ func ParseToStruct[T any](obj *T) {
 
 // ApiConfig stores env configuration settings for the application.
 type ApiConfig struct {
-	AppCode             string `env:"APP_CODE"`
-	AppEnv              string `env:"APP_ENV"`
-	AppVersion          string `env:"APP_VERSION"`
-	AppPort             string `env:"PORT"`
-	MongoDBURI          string `env:"MONGODB_URI"`
-	MongoDBName         string `env:"MONGODB_DB_NAME"`
-	MongoUserCollection string `env:"MONGODB_USER_COLLECTION"`
-	MongoUsername       string `env:"MONGODB_USERNAME"`
-	MongoPassword       string `env:"MONGODB_PASSWORD"`
-	MongoTimeout        string `env:"MONGODB_TIMEOUT"`
+	AppCode                 string `env:"APP_CODE"`
+	AppEnv                  string `env:"APP_ENV"`
+	AppVersion              string `env:"APP_VERSION"`
+	AppPort                 string `env:"PORT"`
+	MongoDBURI              string `env:"MONGODB_URI"`
+	MongoDBName             string `env:"MONGODB_DB_NAME"`
+	MongoUserCollection     string `env:"MONGODB_USER_COLLECTION"`
+	MongoUsername           string `env:"MONGODB_USERNAME"`
+	MongoPassword           string `env:"MONGODB_PASSWORD"`
+	MongoTimeout            string `env:"MONGODB_TIMEOUT"`
+	MongoDBInstanceLocation string `env:"MONGODB_INSTANCE_LOCATION"`
+	MongoDBURISrv           string `env:"MONGODB_URI_SRV"`
 	// AppKey             string `env:"APP_KEY"`
 	// LocalRedisPort     string `env:"LOCAL_REDIS_PORT"`
 	// LocalRedisHost     string `env:"LOCAL_REDIS_HOST"`

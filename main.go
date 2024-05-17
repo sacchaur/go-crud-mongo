@@ -28,12 +28,6 @@ func main() {
 	// allow fiber to handle panics
 	app.Use(recover.New())
 
-	// Connect to MongoDB
-	// storageInstance, err := configs.ConnectDB(cfg)
-	// if err != nil {
-	// 	log.Fatalf("Error connecting to MongoDB: %v", err)
-	// }
-
 	// setup storage connections
 	err = repository.Init(cfg)
 	if err != nil {
