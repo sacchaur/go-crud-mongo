@@ -23,6 +23,13 @@ This is a simple CRUD (Create, Read, Update, Delete) API written in Go, using th
 3. Navigate to the project directory.
 4. Run `make` to start the build on docker.
 
+## Swagger Doc
+
+Run below commands in project directory
+- Run `go install github.com/swaggo/swag/cmd/swag@latest` (works for Windows)
+- Run `go get -u github.com/gofiber/swagger`
+- Run `swag init --parseInternal=true` to generate the API documetations.
+
 ## API Endpoints
 
 - `GET /api/users`: Get all users.

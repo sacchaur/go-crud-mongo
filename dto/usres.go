@@ -7,9 +7,6 @@ const (
 	Error   = "error"
 )
 
-// Users slice to simulate a database
-var Users []User
-
 // User struct to define a user
 type User struct {
 	Id       primitive.ObjectID `json:"_id,omitempty"`
@@ -22,12 +19,3 @@ type User struct {
 	Phone    string             `json:"phone,omitempty"`
 	Location string             `json:"location,omitempty"`
 }
-
-// Give json for User struct to use in postman
-
-// {
-// 	"userId": 1,
-// 	"name": "John Doe",
-// 	"email": "
-//
-//

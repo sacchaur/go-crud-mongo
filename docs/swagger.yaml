@@ -1,0 +1,182 @@
+basePath: /
+definitions:
+  dto.User:
+    properties:
+      _id:
+        type: string
+      email:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      salt:
+        type: string
+      userId:
+        type: integer
+      username:
+        type: string
+    type: object
+  responses.UserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/dto.User'
+      error: {}
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  responses.UsersResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.User'
+        type: array
+      error: {}
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: chaurasia3011@gmail.com
+    name: Sachin Chaurasiya
+  description: This is a simple CRUD (Create, Read, Update, Delete) API written in
+    Go, using the Fiber framework and MongoDB for storage.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Go CRUD API with MongoDB
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      description: Retrieves all users.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UsersResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.UsersResponse'
+      summary: Get all users
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user with the provided details.
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Create a new user
+      tags:
+      - Users
+  /users/{userid}:
+    delete:
+      description: Deletes a user by the given ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: userid
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Delete a user by ID
+      tags:
+      - Users
+    get:
+      description: Retrieves a user by the given ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: userid
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Get a user by ID
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing user with the provided details.
+      parameters:
+      - description: User ID
+        in: path
+        name: userid
+        required: true
+        type: integer
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Update an existing user
+      tags:
+      - Users
+swagger: "2.0"

@@ -12,8 +12,19 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+
+	_ "crud_operation/docs"
 )
 
+// @title Go CRUD API with MongoDB
+// @version 1.0.0
+// @description This is a simple CRUD (Create, Read, Update, Delete) API written in Go, using the Fiber framework and MongoDB for storage.
+// @contact.name Sachin Chaurasiya
+// @contact.email chaurasia3011@gmail.com
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:3000
+// @BasePath /
 func main() {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: stderrors.Handler(),

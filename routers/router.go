@@ -7,10 +7,13 @@ import (
 	"crud_operation/repository"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func SetupRoutes(app *fiber.App, storageInstance *mongo.Client) {
+	app.Get("/swagger/*", swagger.HandlerDefault)
+
 	// Initialize repositories
 	userRepo := repository.NewUserRepository()
 	userLibrary := libraries.NewUserService(userRepo)
