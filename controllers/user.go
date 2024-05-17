@@ -76,6 +76,14 @@ func (userController *userController) Add(c *fiber.Ctx) error {
 
 	// Check if the user already exists
 	existingUser, err := userController.userLib.Get(c.UserContext(), user.UserId)
+	if err != nil {
+		return c.Status(http.StatusNotFound).JSON(responses.UserResponse{
+			Status:  http.StatusNotFound,
+			Message: dto.Error,
+			Data:    &fiber.Map{"data": err.Error()},
+		})
+	}
+
 	if existingUser != nil {
 		return c.Status(http.StatusConflict).JSON(responses.UserResponse{
 			Status:  http.StatusConflict,
