@@ -44,7 +44,8 @@ func NewUserHandler(userLib libraries.UserService) UserController {
 // @Success 200 {object} responses.UserResponse
 // @Failure 400 {string} string "Bad Request"
 // @Failure 404 {object} responses.UserResponse
-// @Router /users/{userid} [get]
+// @Router /v1/users/{userid} [get]
+// @Security ApiKeyAuth
 func (userController *userController) Get(c *fiber.Ctx) error {
 	// Get the user id from the param
 	log.Println("Get user in controller")
@@ -77,23 +78,16 @@ func (userController *userController) Get(c *fiber.Ctx) error {
 // @Param user body dto.User true "User object"
 // @Success 200 {object} responses.UserResponse
 // @Failure 404 {object} responses.UserResponse
-// @Router /users [post]
+// @Router /v1/users [post]
+// @Security ApiKeyAuth
 func (userController *userController) Add(c *fiber.Ctx) error {
 	log.Println("Add user in controller")
-	// Read the request body
 	// Unmarshal the request body into the User struct
 	var user dto.User
 	json.Unmarshal(c.Body(), &user)
 
 	// Check if the user already exists
-	existingUser, err := userController.userLib.Get(c.UserContext(), user.UserId)
-	if err != nil {
-		return c.Status(http.StatusNotFound).JSON(responses.UserResponse{
-			Status:  http.StatusNotFound,
-			Message: dto.Error,
-			Error:   err,
-		})
-	}
+	existingUser, _ := userController.userLib.Get(c.UserContext(), user.UserId)
 
 	if existingUser != nil {
 		return c.Status(http.StatusConflict).JSON(responses.UserResponse{
@@ -130,7 +124,8 @@ func (userController *userController) Add(c *fiber.Ctx) error {
 // @Success 200 {object} responses.UserResponse
 // @Failure 400 {string} string "Bad Request"
 // @Failure 404 {object} responses.UserResponse
-// @Router /users/{userid} [put]
+// @Router /v1/users/{userid} [put]
+// @Security ApiKeyAuth
 func (userController *userController) Update(c *fiber.Ctx) error {
 	userId := c.Params("userid", "")
 	userIdInt, err := strconv.Atoi(userId)
@@ -170,7 +165,8 @@ func (userController *userController) Update(c *fiber.Ctx) error {
 // @Success 200 {object} responses.UserResponse
 // @Failure 400 {string} string "Bad Request"
 // @Failure 404 {object} responses.UserResponse
-// @Router /users/{userid} [delete]
+// @Router /v1/users/{userid} [delete]
+// @Security ApiKeyAuth
 func (userController *userController) Delete(c *fiber.Ctx) error {
 	userId := c.Params("userid", "")
 	userIdInt, err := strconv.Atoi(userId)
@@ -204,7 +200,8 @@ func (userController *userController) Delete(c *fiber.Ctx) error {
 // @Tags Users
 // @Success 200 {object} responses.UsersResponse
 // @Failure 404 {object} responses.UsersResponse
-// @Router /users [get]
+// @Router /v1/users [get]
+// @Security ApiKeyAuth
 func (userController *userController) GetAll(c *fiber.Ctx) error {
 	log.Println("Get all user in controller")
 	users, err := userController.userLib.GetAll(c.UserContext())

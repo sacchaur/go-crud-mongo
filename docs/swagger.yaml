@@ -21,6 +21,16 @@ definitions:
       username:
         type: string
     type: object
+  responses.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  responses.TokenResponse:
+    properties:
+      token:
+        type: string
+    type: object
   responses.UserResponse:
     properties:
       data:
@@ -56,7 +66,93 @@ info:
   title: Go CRUD API with MongoDB
   version: 1.0.0
 paths:
-  /users:
+  /oauth/token:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Create token
+      parameters:
+      - description: Username
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.TokenResponse'
+        "401":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "500":
+          description: Failed to create token
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create token
+      tags:
+      - Authentication
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Login
+      tags:
+      - Users
+  /user/reset:
+    post:
+      consumes:
+      - application/json
+      description: ResetPassword
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Failed to reset password
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: ResetPassword
+      tags:
+      - Users
+  /v1/users:
     get:
       description: Retrieves all users.
       responses:
@@ -68,6 +164,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/responses.UsersResponse'
+      security:
+      - ApiKeyAuth: []
       summary: Get all users
       tags:
       - Users
@@ -93,10 +191,12 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/responses.UserResponse'
+      security:
+      - ApiKeyAuth: []
       summary: Create a new user
       tags:
       - Users
-  /users/{userid}:
+  /v1/users/{userid}:
     delete:
       description: Deletes a user by the given ID.
       parameters:
@@ -118,6 +218,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/responses.UserResponse'
+      security:
+      - ApiKeyAuth: []
       summary: Delete a user by ID
       tags:
       - Users
@@ -142,6 +244,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/responses.UserResponse'
+      security:
+      - ApiKeyAuth: []
       summary: Get a user by ID
       tags:
       - Users
@@ -176,7 +280,14 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/responses.UserResponse'
+      security:
+      - ApiKeyAuth: []
       summary: Update an existing user
       tags:
       - Users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

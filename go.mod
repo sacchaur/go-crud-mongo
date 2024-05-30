@@ -39,7 +39,7 @@ require (
 	github.com/swaggo/swag v1.16.3 // indirect
 	github.com/urfave/cli/v2 v2.27.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.53.0 // indirect
+	github.com/valyala/fasthttp v1.54.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect

@@ -17,3 +17,11 @@ type UsersResponse struct {
 	Error   error       `json:"error,omitempty"`
 	Data    *[]dto.User `json:"data,omitempty"`
 }
+
+type TokenResponse struct {
+	Token string `json:"token"`
+}
+
+type ErrorResponse struct {
+	Error string `json:"error"`
+}

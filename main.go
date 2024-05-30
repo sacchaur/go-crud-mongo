@@ -25,6 +25,19 @@ import (
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host localhost:3000
 // @BasePath /
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+// @schemes http
+// @produce json
+
+// swagger:meta
+// This is a placeholder comment.
+// It will be ignored by the compiler, but it tells the swagger generation tool where to put the security definitions.
+
+// swagger:securitySchemes
+var ApiKeyAuth string
+
 func main() {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: stderrors.Handler(),
