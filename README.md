@@ -21,7 +21,10 @@ This is a simple CRUD (Create, Read, Update, Delete) API written in Go, using th
 1. Ensure you have Go, Docker and docker-compose is installed on your machine.
 2. Clone the repository.
 3. Navigate to the project directory.
-4. Run `make` to start the build on docker.
+4. There are two ways to start the project:
+ - 1. You can directly run this on local for that you need to make sure to modify the .env file and set the `MONGODB_INSTANCE_LOCATION` to `ATLAS`. Run `go run main.go` to start the project.
+ - 2. You can run this on docker and for that you need to make sure to modify the .env file and set the `MONGODB_INSTANCE_LOCATION` to `DOCKER`. Run `make` to start the build on docker.
+5. *Live-air instance only work on Mac*.
 
 ## Swagger Doc
 
@@ -32,11 +35,16 @@ Run below commands in project directory
 
 ## API Endpoints
 
-- `GET /users`: Get all users.
-- `GET /users/{id}`: Get a specific user by ID.
-- `POST /users`: Create a new user.
-- `PUT /users/{id}`: Update a user by ID.
-- `DELETE /users/{id}`: Delete a user by ID.
+- `POST /oauth/token`: To get the authentication token for all other APIs.
+
+- `GET /v1/users`: Get all users.
+- `GET /v1/users/{id}`: Get a specific user by ID.
+- `POST /v1/users`: Create a new user.
+- `PUT /v1/users/{id}`: Update a user by ID.
+- `DELETE /v1/users/{id}`: Delete a user by ID.
+
+- `POST /user/login`: Login using username and password. *(Token not requred)*
+- `POST /user/reset`: Reset user password. *(Token not requred)*
 
 ## Contributing
 
