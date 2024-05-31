@@ -84,6 +84,8 @@ type ApiConfig struct {
 	MongoTimeout            string `env:"MONGODB_TIMEOUT"`
 	MongoDBInstanceLocation string `env:"MONGODB_INSTANCE_LOCATION"`
 	MongoDBURISrv           string `env:"MONGODB_URI_SRV"`
+	ClientId                string `env:"CLIENT_ID"`
+	ClientSecret            string `env:"CLIENT_SECRET"`
 	// AppKey             string `env:"APP_KEY"`
 	// LocalRedisPort     string `env:"LOCAL_REDIS_PORT"`
 	// LocalRedisHost     string `env:"LOCAL_REDIS_HOST"`

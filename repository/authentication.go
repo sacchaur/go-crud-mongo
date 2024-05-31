@@ -11,7 +11,7 @@ import (
 )
 
 type AuthenticationRepository interface {
-	AuthenticateUser(username, password string) (bool, error)
+	AuthenticateToken(clientId, clientSecret string) (bool, error)
 	Login(username, password string) (bool, error)
 	ResetPassword(username, password string) (bool, error)
 }
@@ -28,7 +28,14 @@ func NewAuthenticationRepository() AuthenticationRepository {
 	}
 }
 
-func (auth *authenticationRepository) AuthenticateUser(username, password string) (bool, error) {
+func (auth *authenticationRepository) AuthenticateToken(clientId, clientSecret string) (bool, error) {
+	if (auth.cfg.ClientId == clientId) && (auth.cfg.ClientSecret == clientSecret) {
+		return true, nil
+	}
+	return false, nil
+}
+
+func (auth *authenticationRepository) Login(username, password string) (bool, error) {
 	collection := GetCollection(auth.cfg, auth.storageInstance, auth.cfg.MongoUserCollection)
 	var user dto.User
 	err := collection.FindOne(context.Background(), bson.M{"username": username}).Decode(&user)
@@ -37,10 +44,6 @@ func (auth *authenticationRepository) AuthenticateUser(username, password string
 	}
 
 	return utils.Compare(password, user.Salt, user.Password), nil
-}
-
-func (auth *authenticationRepository) Login(username, password string) (bool, error) {
-	return auth.AuthenticateUser(username, password)
 }
 
 func (auth *authenticationRepository) ResetPassword(username, password string) (bool, error) {

@@ -6,7 +6,7 @@ import (
 )
 
 type AuthenticationService interface {
-	AuthenticateUser(username, password string) (bool, error)
+	AuthenticateToken(clientId, clientSecret string) (bool, error)
 	Login(username, password string) (bool, error)
 	ResetPassword(username, password string) (bool, error)
 }
@@ -23,8 +23,8 @@ func NewAuthenticationService(authRepo repository.AuthenticationRepository) Auth
 	}
 }
 
-func (auth *authenticationService) AuthenticateUser(username, password string) (bool, error) {
-	return auth.authRepo.AuthenticateUser(username, password)
+func (auth *authenticationService) AuthenticateToken(clientId, clientSecret string) (bool, error) {
+	return auth.authRepo.AuthenticateToken(clientId, clientSecret)
 }
 
 func (auth *authenticationService) Login(username, password string) (bool, error) {

@@ -25,3 +25,8 @@ type TokenResponse struct {
 type ErrorResponse struct {
 	Error string `json:"error"`
 }
+
+type AuthRequest struct {
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+}

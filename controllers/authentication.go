@@ -32,7 +32,7 @@ func NewAuthenticationHandler(authLib libraries.AuthenticationService) Authentic
 }
 
 type Claims struct {
-	Username string `json:"username"`
+	ClientId string `json:"client_id"`
 	jwt.StandardClaims
 }
 
@@ -49,11 +49,11 @@ type Claims struct {
 // @Failure 500 {object} responses.ErrorResponse "Failed to create token"
 // @Router /oauth/token [post]
 func (ctrl *authenticationController) Token(c *fiber.Ctx) error {
-	username := c.FormValue("username")
-	password := c.FormValue("password")
+	clientId := c.FormValue("client_id")
+	clientSecret := c.FormValue("client_secret")
 
 	// Authenticate the user (you need to implement this function)
-	status, err := ctrl.authLib.AuthenticateUser(username, password)
+	status, err := ctrl.authLib.AuthenticateToken(clientId, clientSecret)
 	if !status {
 		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid credentials"})
 	}
@@ -63,7 +63,7 @@ func (ctrl *authenticationController) Token(c *fiber.Ctx) error {
 
 	expirationTime := time.Now().Add(configs.TokenExpiry)
 	claims := &Claims{
-		Username: username,
+		ClientId: clientId,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
@@ -88,7 +88,7 @@ func (ctrl *authenticationController) ValidateToken(c *fiber.Ctx) error {
 		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{"error": "Unauthorized"})
 	}
 
-	c.Locals("username", claims.Username)
+	c.Locals("clinet_id", claims.ClientId)
 	return c.Next()
 }
 

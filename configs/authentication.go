@@ -8,10 +8,8 @@ import (
 )
 
 var (
-	JWTSecret         = []byte(os.Getenv("JWT_SECRET"))
-	OauthClientID     = os.Getenv("OAUTH_CLIENT_ID")
-	OauthClientSecret = os.Getenv("OAUTH_CLIENT_SECRET")
-	TokenExpiry       = time.Hour * 24
+	JWTSecret   = []byte(os.Getenv("JWT_SECRET"))
+	TokenExpiry = time.Hour * 24
 )
 
 type Claims struct {
