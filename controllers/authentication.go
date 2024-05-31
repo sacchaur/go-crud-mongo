@@ -5,6 +5,7 @@ import (
 	"crud_operation/dto"
 	"crud_operation/libraries"
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 
@@ -51,6 +52,13 @@ type Claims struct {
 func (ctrl *authenticationController) Token(c *fiber.Ctx) error {
 	clientId := c.FormValue("client_id")
 	clientSecret := c.FormValue("client_secret")
+
+	// Check if the client_id and client_secret are empty
+	log.Println("client_id: ", clientId)
+	if clientId == "" || clientSecret == "" {
+		log.Println("client_id and client_secret are required")
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "client_id and client_secret are required"})
+	}
 
 	// Authenticate the user (you need to implement this function)
 	status, err := ctrl.authLib.AuthenticateToken(clientId, clientSecret)

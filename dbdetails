@@ -2,3 +2,9 @@ username : sachin
 password : sachin@123
 
 mongodb+srv://sachin:sachin@123@go-mongodb.hwjfoku.mongodb.net/?retryWrites=true&w=majority&appName=go-mongodb
+
+
+username : admin
+password : admin
+
+mongodb+srv://admin:admin@go-mongodb.lrlskbv.mongodb.net/?retryWrites=true&w=majority&appName=go-mongodb
