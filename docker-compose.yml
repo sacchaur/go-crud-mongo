@@ -17,8 +17,8 @@ services:
     image: mongo:latest
     container_name: go-mongodb
     environment:
-      MONGO_INITDB_ROOT_USERNAME: sachin
-      MONGO_INITDB_ROOT_PASSWORD: sachin@123
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
       #  MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
       # MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
     ports:

@@ -32,7 +32,10 @@ func Init(cfg configs.ApiConfig) error {
 		if cfg.MongoDBInstanceLocation == "DOCKER" {
 			mongoURI = fmt.Sprintf("mongodb://%s:%s@%s", encodedUsername, encodedPassword, cfg.MongoDBURI)
 		} else {
-			mongoURI = fmt.Sprintf("mongodb+srv://%s:%s@%s", encodedUsername, encodedPassword, cfg.MongoDBURISrv)
+			log.Println("Connecting to MongoDB Atlas...")
+			url := fmt.Sprintf("mongodb+srv://%s:%s@%s", encodedUsername, encodedPassword, cfg.MongoDBURISrv)
+			log.Println("MongoDB Atlas URL: ", url)
+			mongoURI = url
 		}
 
 		// Set client options
@@ -46,10 +49,10 @@ func Init(cfg configs.ApiConfig) error {
 		}
 
 		// Check the connection
-		err = client.Ping(context.Background(), nil)
-		if err != nil {
-			panic(err)
-		}
+		// err = client.Ping(context.Background(), nil)
+		// if err != nil {
+		// 	panic(err)
+		// }
 
 		// Send a ping to confirm a successful connection
 		if err := client.Database("admin").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Err(); err != nil {

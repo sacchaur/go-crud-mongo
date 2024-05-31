@@ -5,6 +5,7 @@ import (
 	"crud_operation/configs"
 	"crud_operation/dto"
 	"crud_operation/repository"
+	"crud_operation/utils"
 	"log"
 )
 
@@ -34,6 +35,9 @@ func (us *userService) Get(ctx context.Context, userId int) (*dto.User, error) {
 
 func (us *userService) Add(ctx context.Context, user *dto.User) (*dto.User, error) {
 	log.Println("Add user in service")
+	salt := utils.GenerateSalt()
+	user.Salt = salt
+	user.Password = utils.Encrypt(user.Password, salt)
 	return us.userRepo.CreateUser(ctx, user)
 }
 

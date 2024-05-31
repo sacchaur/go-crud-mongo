@@ -1,9 +1,32 @@
 package responses
 
-import "github.com/gofiber/fiber/v2"
+import "crud_operation/dto"
 
+// UserResponse represents the response structure for user-related operations.
 type UserResponse struct {
-	Status  int        `json:"status"`
-	Message string     `json:"message"`
-	Data    *fiber.Map `json:"data"`
+	Status  int       `json:"status"`
+	Message string    `json:"message,omitempty"`
+	Error   error     `json:"error,omitempty"`
+	Data    *dto.User `json:"data,omitempty"`
+}
+
+// Struct to return all users
+type UsersResponse struct {
+	Status  int         `json:"status"`
+	Message string      `json:"message,omitempty"`
+	Error   error       `json:"error,omitempty"`
+	Data    *[]dto.User `json:"data,omitempty"`
+}
+
+type TokenResponse struct {
+	Token string `json:"token"`
+}
+
+type ErrorResponse struct {
+	Error string `json:"error"`
+}
+
+type AuthRequest struct {
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
 }
